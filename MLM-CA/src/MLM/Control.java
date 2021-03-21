@@ -4,6 +4,6 @@ public class Control
 {
 	public static void main(String args[])
 	{
-		GUI app = new GUI("App");
+		GUI app = new GUI("Using Naïve Bayes");
 	}
 }
