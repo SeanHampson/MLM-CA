@@ -15,22 +15,21 @@ import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.SwingConstants;
 
-
 /* UI for a Query */
 @SuppressWarnings("serial")
 public class GUI extends JFrame implements ActionListener
 {
-	ButtonGroup gender, business, job, address, student, successful;
-	JRadioButton male, female, 
+	private ButtonGroup gender, business, job, address, student, successful;
+	private JRadioButton male, female, 
 					ownedBusiness, noBusiness,
 					ptJob, noJob,
 					urban, rural, 
 					businessStudent, notBusinessStudent, 
 					entrepreneur, notEntrepreneur;
-	JButton submit;
-	JPanel studentGender, parentGuardian, partTime, urbanOrRural,
+	private JButton submit;
+	private JPanel studentGender, parentGuardian, partTime, urbanOrRural,
 			studiesBusiness, becameEntrepreneur;
-	JLabel probability;
+	private JLabel probability;
 
 	public GUI(String title)
 	{
@@ -48,7 +47,10 @@ public class GUI extends JFrame implements ActionListener
 		
 		// Radio Buttons
 		male   = new JRadioButton("Male", true);
+		male.setActionCommand( male.getText() );
+		
 		female = new JRadioButton("Female", false);
+		female.setActionCommand( female.getText() );
 		
 		// Button Group
 		gender = new ButtonGroup();
@@ -71,7 +73,10 @@ public class GUI extends JFrame implements ActionListener
 		
 		// Radio Buttons
 		ownedBusiness = new JRadioButton("Yes", true);
-		noBusiness    = new JRadioButton("No", false);
+		ownedBusiness.setActionCommand( ownedBusiness.getText() );
+		
+		noBusiness = new JRadioButton("No", false);
+		noBusiness.setActionCommand( noBusiness.getText() );
 		
 		// Button Group
 		business = new ButtonGroup();
@@ -94,7 +99,10 @@ public class GUI extends JFrame implements ActionListener
 		
 		// Radio Buttons
 		ptJob = new JRadioButton("Yes", true);
+		ptJob.setActionCommand( ptJob.getText() );
+		
 		noJob = new JRadioButton("No", false);
+		noJob.setActionCommand( noJob.getText() );
 		
 		// Button Group
 		job = new ButtonGroup();
@@ -117,7 +125,10 @@ public class GUI extends JFrame implements ActionListener
 		
 		// Radio Buttons
 		urban = new JRadioButton("Urban", true);
+		urban.setActionCommand( urban.getText() );
+		
 		rural = new JRadioButton("Rural", false);
+		rural.setActionCommand( rural.getText() );
 		
 		// Button Group
 		address = new ButtonGroup();
@@ -139,8 +150,11 @@ public class GUI extends JFrame implements ActionListener
 		studiesBusiness.setLayout(new BoxLayout(studiesBusiness, BoxLayout.X_AXIS));
 		
 		// Radio Buttons
-		businessStudent    = new JRadioButton("Yes", true);
+		businessStudent = new JRadioButton("Yes", true);
+		businessStudent.setActionCommand( businessStudent.getText() );
+		
 		notBusinessStudent = new JRadioButton("No", false);
+		notBusinessStudent.setActionCommand( notBusinessStudent.getText() );
 		
 		// Button Group
 		student = new ButtonGroup();
@@ -162,8 +176,11 @@ public class GUI extends JFrame implements ActionListener
 		becameEntrepreneur.setLayout(new BoxLayout(becameEntrepreneur, BoxLayout.X_AXIS));
 		
 		// Radio Buttons
-		entrepreneur    = new JRadioButton("Yes", true);
+		entrepreneur = new JRadioButton("Yes", true);
+		entrepreneur.setActionCommand( entrepreneur.getText() );
+		
 		notEntrepreneur = new JRadioButton("No", false);
+		notEntrepreneur.setActionCommand( notEntrepreneur.getText() );
 		
 		// Button Group
 		successful = new ButtonGroup();
@@ -201,6 +218,25 @@ public class GUI extends JFrame implements ActionListener
 	@Override
 	public void actionPerformed(ActionEvent e)
 	{
-		System.out.println("Button was pressed");
+		/* Grab text value from radio buttons */
+		String genderText = gender.getSelection().getActionCommand();
+		String businessText = business.getSelection().getActionCommand();
+		String jobText = job.getSelection().getActionCommand();
+		String addressText = address.getSelection().getActionCommand();
+		String studentText = student.getSelection().getActionCommand();
+		String successfulText = successful.getSelection().getActionCommand();
+		
+		/* Boolean parameters initialize */
+		boolean bBool = false,jBool = false, aBool = false, stBool = false, suBool = false;
+		
+		/* Boolean parameters set to true depending on value*/
+		if(businessText == "Yes") bBool = true;
+		if(jobText == "Yes") jBool = true;
+		if(addressText == "Urban") aBool = true;
+		if(studentText == "Yes") stBool = true;
+		if(successfulText == "Yes") suBool = true;
+		
+		Query q1 = new Query(genderText, bBool, jBool, aBool, stBool, suBool);
+		System.out.println(q1);
 	}
 }
