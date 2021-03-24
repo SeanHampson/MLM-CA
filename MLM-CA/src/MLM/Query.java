@@ -22,8 +22,8 @@ public class Query
 	
 	public String toString()
 	{
-		String summary = getGender() + '\n' + isParentBusiness() + '\n' + isPtJob() + '\n' +
-				isUrban() + '\n' + isBusinessStudent() + '\n' + isSuccess() + '\n';
+		String summary = getGender() + ',' + isParentBusiness() + ',' + isPtJob() + ','
+				+ isUrban() + ',' + isBusinessStudent() + ',' + isSuccess() + '\n';
 		
 		return summary;
 		
@@ -34,7 +34,9 @@ public class Query
 	}
 
 	public void setGender(String gender) {
-		this.gender = gender;
+		if(gender == "Male" || gender == "Female") {
+			this.gender = gender;
+		}
 	}
 
 	public boolean isParentBusiness() {

@@ -61,9 +61,6 @@ public class GUI extends JFrame implements ActionListener
 		studentGender.add(male);
 		studentGender.add(female);
 		
-		// Add to frame
-		add(studentGender);
-		
 		/* ========== Parent/Guardian had own business ========== */
 		
 		// Panel
@@ -86,9 +83,6 @@ public class GUI extends JFrame implements ActionListener
 		// Add to panel
 		parentGuardian.add(ownedBusiness);
 		parentGuardian.add(noBusiness);
-		
-		// Add to frame
-		add(parentGuardian);
 		
 		/* ========== Has a part time job ========== */
 		
@@ -113,9 +107,6 @@ public class GUI extends JFrame implements ActionListener
 		partTime.add(ptJob);
 		partTime.add(noJob);
 		
-		// Add to frame
-		add(partTime);
-		
 		/* ========== Urban or rural address ========== */
 		
 		// Panel
@@ -139,9 +130,6 @@ public class GUI extends JFrame implements ActionListener
 		urbanOrRural.add(urban);
 		urbanOrRural.add(rural);
 		
-		// Add to frame
-		add(urbanOrRural);
-		
 		/* ========== Studies business subjects ========== */
 		
 		// Panel
@@ -164,9 +152,6 @@ public class GUI extends JFrame implements ActionListener
 		// Add to panel
 		studiesBusiness.add(businessStudent);
 		studiesBusiness.add(notBusinessStudent);
-		
-		// Add to frame
-		add(studiesBusiness);
 	
 		/* ========== Become an Entrepreneur ========== */
 		
@@ -191,17 +176,11 @@ public class GUI extends JFrame implements ActionListener
 		becameEntrepreneur.add(entrepreneur);
 		becameEntrepreneur.add(notEntrepreneur);
 		
-		// Add to frame
-		add(becameEntrepreneur);
-		
 		/* ========== Submit button ========== */
 		
 		// Button
 		submit = new JButton("Submit");
 		submit.addActionListener(this);
-		
-		// Add to frame
-		add(submit);
 		
 		/* ========== Probability Label ========== */
 		
@@ -210,6 +189,13 @@ public class GUI extends JFrame implements ActionListener
 		probability.setFont(new Font("Calibri", Font.BOLD, 20));
 		
 		// Add to frame
+		add(studentGender);
+		add(parentGuardian);
+		add(partTime);
+		add(urbanOrRural);
+		add(studiesBusiness);
+		add(becameEntrepreneur);
+		add(submit);
 		add(probability);
 		
 		setVisible(true);
