@@ -1,12 +1,3 @@
-/* -ORDER-
- * Gender
- * Parent/Guardian business
- * Part Time Job
- * Address
- * Business Student
- * Entrepreneur
- */
-
 package MLM;
 
 import java.io.File;
@@ -16,6 +7,7 @@ import java.util.Scanner;
 public class FileProcessor
 {	
 	private ProcessEntry e1;
+	private Trainer t1;
 	private Scanner scanner;
 	private File file;
 	private int numEntries;
@@ -30,7 +22,7 @@ public class FileProcessor
 	
 	public void open(File fileName) throws FileNotFoundException
 	{
-		numEntries = 0;
+		setNumEntries(0);
 		
 		setScanner(file);
 		scanner.useDelimiter("\n");
@@ -48,6 +40,10 @@ public class FileProcessor
 			}
 		}
 		
+		t1 = new Trainer(e1.getPopulations(), getNumEntries());
+		System.out.println(t1);
+		
+		System.out.println("No. of Entries: " + getNumEntries());
 		getProcessEntry();
 		scanner.close();
 	}
