@@ -14,6 +14,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.SwingConstants;
+import javax.swing.border.TitledBorder;
 
 /* UI for a Query */
 @SuppressWarnings("serial")
@@ -43,6 +44,7 @@ public class GUI extends JFrame implements ActionListener
 		// Panel
 		studentGender = new JPanel();
 		studentGender.setBorder(BorderFactory.createTitledBorder("Student Gender"));
+		((TitledBorder) studentGender.getBorder()).setTitleFont(new Font("Arial", Font.BOLD, 14));
 		studentGender.setLayout(new BoxLayout(studentGender, BoxLayout.X_AXIS));
 		
 		// Radio Buttons
@@ -66,6 +68,7 @@ public class GUI extends JFrame implements ActionListener
 		// Panel
 		parentGuardian = new JPanel();
 		parentGuardian.setBorder(BorderFactory.createTitledBorder("Parent/Guardian had own Business"));
+		((TitledBorder) parentGuardian.getBorder()).setTitleFont(new Font("Arial", Font.BOLD, 14));
 		parentGuardian.setLayout(new BoxLayout(parentGuardian, BoxLayout.X_AXIS));
 		
 		// Radio Buttons
@@ -89,6 +92,7 @@ public class GUI extends JFrame implements ActionListener
 		// Panel
 		partTime = new JPanel();
 		partTime.setBorder(BorderFactory.createTitledBorder("Has a Part Time Job"));
+		((TitledBorder) partTime.getBorder()).setTitleFont(new Font("Arial", Font.BOLD, 14));
 		partTime.setLayout(new BoxLayout(partTime, BoxLayout.X_AXIS));
 		
 		// Radio Buttons
@@ -112,6 +116,7 @@ public class GUI extends JFrame implements ActionListener
 		// Panel
 		urbanOrRural = new JPanel();
 		urbanOrRural.setBorder(BorderFactory.createTitledBorder("Urban or Rural Address"));
+		((TitledBorder) urbanOrRural.getBorder()).setTitleFont(new Font("Arial", Font.BOLD, 14));
 		urbanOrRural.setLayout(new BoxLayout(urbanOrRural, BoxLayout.X_AXIS));
 		
 		// Radio Buttons
@@ -135,6 +140,7 @@ public class GUI extends JFrame implements ActionListener
 		// Panel
 		studiesBusiness = new JPanel();
 		studiesBusiness.setBorder(BorderFactory.createTitledBorder("Studies Business Subjects"));
+		((TitledBorder) studiesBusiness.getBorder()).setTitleFont(new Font("Arial", Font.BOLD, 14));
 		studiesBusiness.setLayout(new BoxLayout(studiesBusiness, BoxLayout.X_AXIS));
 		
 		// Radio Buttons
@@ -156,37 +162,38 @@ public class GUI extends JFrame implements ActionListener
 		/* ========== Become an Entrepreneur ========== */
 		
 		// Panel
-		becameEntrepreneur = new JPanel();
-		becameEntrepreneur.setBorder(BorderFactory.createTitledBorder("Became an Entrepreneur"));
-		becameEntrepreneur.setLayout(new BoxLayout(becameEntrepreneur, BoxLayout.X_AXIS));
+		//becameEntrepreneur = new JPanel();
+		//becameEntrepreneur.setBorder(BorderFactory.createTitledBorder("Became an Entrepreneur"));
+		//becameEntrepreneur.setLayout(new BoxLayout(becameEntrepreneur, BoxLayout.X_AXIS));
 		
 		// Radio Buttons
-		entrepreneur = new JRadioButton("Yes", true);
-		entrepreneur.setActionCommand( entrepreneur.getText() );
+		//entrepreneur = new JRadioButton("Yes", true);
+		//entrepreneur.setActionCommand( entrepreneur.getText() );
 		
-		notEntrepreneur = new JRadioButton("No", false);
-		notEntrepreneur.setActionCommand( notEntrepreneur.getText() );
+		//notEntrepreneur = new JRadioButton("No", false);
+		//notEntrepreneur.setActionCommand( notEntrepreneur.getText() );
 		
 		// Button Group
-		successful = new ButtonGroup();
-		successful.add(entrepreneur);
-		successful.add(notEntrepreneur);
+		//successful = new ButtonGroup();
+		//successful.add(entrepreneur);
+		//successful.add(notEntrepreneur);
 		
 		// Add to panel
-		becameEntrepreneur.add(entrepreneur);
-		becameEntrepreneur.add(notEntrepreneur);
+		//becameEntrepreneur.add(entrepreneur);
+		//becameEntrepreneur.add(notEntrepreneur);
 		
 		/* ========== Submit button ========== */
 		
 		// Button
 		submit = new JButton("Submit");
+		submit.setFont(new Font("Arial", Font.BOLD, 24));
 		submit.addActionListener(this);
 		
 		/* ========== Probability Label ========== */
 		
 		// Label
 		probability = new JLabel("Probability: 0%", SwingConstants.CENTER);
-		probability.setFont(new Font("Calibri", Font.BOLD, 20));
+		probability.setFont(new Font("Calibri", Font.BOLD, 24));
 		
 		// Add to frame
 		add(studentGender);
@@ -194,7 +201,7 @@ public class GUI extends JFrame implements ActionListener
 		add(partTime);
 		add(urbanOrRural);
 		add(studiesBusiness);
-		add(becameEntrepreneur);
+		//add(becameEntrepreneur);
 		add(submit);
 		add(probability);
 		
@@ -210,19 +217,27 @@ public class GUI extends JFrame implements ActionListener
 		String jobText = job.getSelection().getActionCommand();
 		String addressText = address.getSelection().getActionCommand();
 		String studentText = student.getSelection().getActionCommand();
-		String successfulText = successful.getSelection().getActionCommand();
+		//String successfulText = successful.getSelection().getActionCommand();
 		
 		/* Boolean parameters initialize */
-		boolean bBool = false,jBool = false, aBool = false, stBool = false, suBool = false;
+		boolean bBool = false,jBool = false, aBool = false, stBool = false;
 		
 		/* Boolean parameters set to true depending on value*/
 		if(businessText == "Yes") bBool = true;
 		if(jobText == "Yes") jBool = true;
 		if(addressText == "Urban") aBool = true;
 		if(studentText == "Yes") stBool = true;
-		if(successfulText == "Yes") suBool = true;
+		//if(successfulText == "Yes") suBool = true;
 		
-		Query q1 = new Query(genderText, bBool, jBool, aBool, stBool, suBool);
+		Query q1 = new Query(genderText, bBool, jBool, aBool, stBool);
 		System.out.println(q1);
+		
+		ProcessQuery p1 = new ProcessQuery(q1);
+		
+		String pc = String.format("%.4f", p1.getProb());
+		double pcd = Double.parseDouble(pc);
+		pcd = pcd * 100.0;
+		pcd = Math.round(pcd * 100.0) / 100.0;
+		probability.setText("Probability: " + String.valueOf(pcd) + "%");
 	}
 }

@@ -19,12 +19,17 @@ public class Trainer
 	
 	public String toString()
 	{
-		String summary = getProbability();
+		String summary = probValues();
 		
 		return summary;
 	}
 	
-	public String getProbability()
+	public static ArrayList<Double> getProb()
+	{
+		return probability;
+	}
+	
+	public String probValues()
 	{
 		String values = "Probabilities:\n";
 		

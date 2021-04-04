@@ -10,7 +10,7 @@ public class FileProcessor
 	private Trainer t1;
 	private Scanner scanner;
 	private File file;
-	private int numEntries;
+	private static int numEntries=0;
 	private String entry;
 	private boolean validEntry;
 	
@@ -29,20 +29,29 @@ public class FileProcessor
 		
 		while(scanner.hasNext())
 		{
+			// Scan and store next line in variable entry
 			entry = scanner.next();
-			entry = entry.replaceAll("\\s",  "");	// Remove whitespace
+			// Remove whitespace
+			entry = entry.replaceAll("\\s",  "");
+			// If the line from dataset begins with Male or Female it is a valid entry
 			setValidEntry(entry.startsWith("Male") || entry.startsWith("Female"));
 			
+			// Checks if next line is a valid entry
 			if(getValidEntry())
 			{
+				// Increments the number of entries in dataset by 1
 				setNumEntries(numEntries + 1);
+				// Processes this entry
 				setProcessEntry(entry);
 			}
 		}
 		
-		t1 = new Trainer(e1.getPopulations(), getNumEntries());
-		System.out.println(t1);
+		// Trainer will grab stripped data from dataset to generate probabilities
+		//t1 = new Trainer(e1.getPopulations(), getNumEntries());
+		// Debug
+		//System.out.println(t1);
 		
+		//Debug
 		System.out.println("No. of Entries: " + getNumEntries());
 		getProcessEntry();
 		scanner.close();
@@ -68,7 +77,7 @@ public class FileProcessor
 		numEntries = num;
 	}
 	
-	public int getNumEntries()
+	public static int getNumEntries()
 	{
 		return numEntries;
 	}

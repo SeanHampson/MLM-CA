@@ -7,23 +7,23 @@ public class Query
 	private boolean ptJob;				/* Has a part time job = True*/
 	private boolean urban;				/* Lives at an urban address = True */
 	private boolean businessStudent;	/* Studied Business = True */
-	private boolean success;			/* Became an entrepreneur = True */
+	//private boolean success;			/* Became an entrepreneur = True */
 	
 	public Query(String gender, boolean parentBusiness, boolean ptJob, 
-			boolean urban, boolean businessStudent, boolean success)
+			boolean urban, boolean businessStudent)
 	{
 		setGender(gender);
 		setParentBusiness(parentBusiness);
 		setPtJob(ptJob);
 		setUrban(urban);
 		setBusinessStudent(businessStudent);
-		setSuccess(success);
+		//setSuccess(success);
 	}
 	
 	public String toString()
 	{
 		String summary = getGender() + ',' + isParentBusiness() + ',' + isPtJob() + ','
-				+ isUrban() + ',' + isBusinessStudent() + ',' + isSuccess() + '\n';
+				+ isUrban() + ',' + isBusinessStudent() +  '\n';
 		
 		return summary;
 		
@@ -69,13 +69,5 @@ public class Query
 
 	public void setBusinessStudent(boolean businessStudent) {
 		this.businessStudent = businessStudent;
-	}
-
-	public boolean isSuccess() {
-		return success;
-	}
-
-	public void setSuccess(boolean success) {
-		this.success = success;
 	}
 }

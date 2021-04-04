@@ -8,8 +8,9 @@ public class Control
 	
 	public static void main(String args[]) throws FileNotFoundException
 	{
-		//GUI app = new GUI("Using Naïve Bayes");
-		
+		// Should only be called once - at the beginning of the program
 		FileProcessor f1 = new FileProcessor(fileName);
+		
+		GUI app = new GUI("Using Naïve Bayes");
 	}
 }
