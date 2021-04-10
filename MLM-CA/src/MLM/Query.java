@@ -35,17 +35,15 @@ public class Query
 		return gender;
 	}
 
-	public void setGender(String gender) {
-		if(gender.equals("male") || gender.equals("female")) {
-			this.gender = gender;
-		}
+	private void setGender(String gender) {
+		if(gender.equals("male") || gender.equals("female")) this.gender = gender;
 	}
 
 	public boolean isParentBusiness() {
 		return parentBusiness;
 	}
 
-	public void setParentBusiness(boolean parentBusiness) {
+	private void setParentBusiness(boolean parentBusiness) {
 		this.parentBusiness = parentBusiness;
 	}
 
@@ -53,7 +51,7 @@ public class Query
 		return ptJob;
 	}
 
-	public void setPtJob(boolean ptJob) {
+	private void setPtJob(boolean ptJob) {
 		this.ptJob = ptJob;
 	}
 
@@ -61,7 +59,7 @@ public class Query
 		return urban;
 	}
 
-	public void setUrban(boolean urban) {
+	private void setUrban(boolean urban) {
 		this.urban = urban;
 	}
 
@@ -69,7 +67,7 @@ public class Query
 		return businessStudent;
 	}
 
-	public void setBusinessStudent(boolean businessStudent) {
+	private void setBusinessStudent(boolean businessStudent) {
 		this.businessStudent = businessStudent;
 	}
 }

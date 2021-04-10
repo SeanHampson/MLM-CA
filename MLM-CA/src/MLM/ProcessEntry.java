@@ -22,8 +22,8 @@ public class ProcessEntry
 	private static int maleEntre=0, femaleEntre=0, 
 	y_pgBusinessEntre=0, n_pgBusinessEntre=0,	// pgBusiness = Parent Guardian Had a Business (Feature)
 	y_partTimeJobEntre=0, n_partTimeJobEntre=0,		// ptJob = Had a part time job (Feature)
-	y_businessStudent=0, n_businessStudent=0,
-	u_address=0, r_address=0;
+	u_address=0, r_address=0,
+	y_businessStudent=0, n_businessStudent=0;
 	
 	public ProcessEntry(String entry)
 	{
@@ -93,8 +93,8 @@ public class ProcessEntry
 
 		populateArrays(entryArray, entryLength);
 	}
-	
-	public void incrementValue(ArrayList<Integer> array, int index)
+
+	private void incrementValue(ArrayList<Integer> array, int index)
 	{
 		// Gets old value
 		int oldVal = array.get(index);
@@ -104,7 +104,7 @@ public class ProcessEntry
 		array.set(index, newVal);
 	}
 	
-	public void populateArrays(ArrayList<String> array, int size)
+	private void populateArrays(ArrayList<String> array, int size)
 	{
 		for(int i = 0; i < size; i++)
 		{
@@ -147,7 +147,8 @@ public class ProcessEntry
 		 * */
 		
 		String summary = 
-		"=====<[Values for Debugging]>=====\n"
+		"=====<[Debugging]>=====\n"
+		+"\n\n=====<[Populations]>=====\n"
 		+ "0-0: Males: " + gender.get(0)
 		+"\n0-1: Females: " + gender.get(1)
 		
@@ -205,9 +206,9 @@ public class ProcessEntry
 		// The likes of Male & Entrepreneur, and Had a part time job & No an Entrepreneur are within these values
 		ArrayList<Integer> values = new ArrayList<Integer>(Arrays.asList(maleEntre, femaleEntre, 
 																		y_pgBusinessEntre, n_pgBusinessEntre,
-																		y_partTimeJobEntre, n_partTimeJobEntre,	
-																		y_businessStudent, n_businessStudent,
-																		u_address, r_address));
+																		y_partTimeJobEntre, n_partTimeJobEntre,
+																		u_address, r_address,
+																		y_businessStudent, n_businessStudent));
 		
 		return values;
 	}

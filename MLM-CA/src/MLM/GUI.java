@@ -217,9 +217,9 @@ public class GUI extends JFrame implements ActionListener
 		if(studentText == "Yes") studentBool = true;
 		
 		Query q1 = new Query(genderText, businessBool, jobBool, addressBool, studentBool);
-		System.out.println(q1);
 		
 		ProcessQuery p1 = new ProcessQuery(q1);
+		
 		String result = p1.getProb();
 		if(result.equals("yes"))
 		{
@@ -227,7 +227,6 @@ public class GUI extends JFrame implements ActionListener
 		}
 		else
 		{
-			System.out.println(p1);
 			resultLabel.setText("NO");
 		}
 	}

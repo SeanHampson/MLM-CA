@@ -12,6 +12,14 @@ public class FileProcessor
 	private static int numEntries=0;
 	private String entry;
 	private boolean validEntry;
+	private static double trainingSize=1.0;
+	
+	public FileProcessor(String fileName, double trainSize) throws FileNotFoundException
+	{
+		setTrainingSize(trainSize);
+		setFile(fileName);
+		open(file);
+	}
 	
 	public FileProcessor(String fileName) throws FileNotFoundException
 	{
@@ -19,7 +27,7 @@ public class FileProcessor
 		open(file);
 	}
 	
-	public void open(File fileName) throws FileNotFoundException
+	private void open(File fileName) throws FileNotFoundException
 	{
 		setNumEntries(0);
 		
@@ -32,7 +40,7 @@ public class FileProcessor
 			entry = scanner.next();
 			
 			// Remove whitespace
-			entry = entry.replaceAll("\\s",  "");
+			entry = entry.replaceAll("\\s", "");
 			entry = entry.toLowerCase();
 			
 			// If the line from data begins with Male or Female it is a valid entry
@@ -54,27 +62,41 @@ public class FileProcessor
 	
 	public String toString()
 	{
-		String summary = "Number of entries in given file: " + getNumEntries();
+		String summary = "Number of entries in given file: " + getNumEntries()
+		+"\nTraining Size: " + getTrainingSize();
 		
 		return summary;
 	}
 	
-	public void setFile(String fileName)
+	private void setTrainingSize(double trainSize) 
+	{
+		if(trainSize <= 1 && trainSize >= 0.1)
+		{
+			trainingSize = trainSize;
+		}
+	}
+	
+	private double getTrainingSize()
+	{
+		return trainingSize;
+	}
+	
+	private void setFile(String fileName)
 	{
 		file = new File(fileName);
 	}
 	
-	public void setValidEntry(boolean bool)
+	private void setValidEntry(boolean bool)
 	{
 		validEntry = bool;
 	}
 	
-	public boolean getValidEntry()
+	private boolean getValidEntry()
 	{
 		return validEntry;
 	}
 	
-	public void setNumEntries(int num)
+	private void setNumEntries(int num)
 	{
 		numEntries = num;
 	}
@@ -84,12 +106,12 @@ public class FileProcessor
 		return numEntries;
 	}
 	
-	public void setScanner(File file) throws FileNotFoundException
+	private void setScanner(File file) throws FileNotFoundException
 	{
 		scanner = new Scanner(file);
 	}
 	
-	public void setProcessEntry(String entry)
+	private void setProcessEntry(String entry)
 	{
 		e1 = new ProcessEntry(entry);
 	}
