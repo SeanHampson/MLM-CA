@@ -2,31 +2,33 @@ package MLM;
 
 public class Query
 {
-	private String gender;				/* Gender of person = Male or Female*/
-	private boolean parentBusiness;		/* Parent/Guardian had own business = True*/
-	private boolean ptJob;				/* Has a part time job = True*/
-	private boolean urban;				/* Lives at an urban address = True */
-	private boolean businessStudent;	/* Studied Business = True */
-	//private boolean success;			/* Became an entrepreneur = True */
+	// Gender of person = Male or Female
+	private String gender;
+	// Parent/Guardian had own business = True
+	private boolean parentBusiness;
+	// Has a part time job = True
+	private boolean ptJob;
+	// Lives at an urban address = True
+	private boolean urban;
+	// Studied Business = True
+	private boolean businessStudent;
 	
 	public Query(String gender, boolean parentBusiness, boolean ptJob, 
 			boolean urban, boolean businessStudent)
 	{
-		setGender(gender);
+		setGender(gender.toLowerCase());
 		setParentBusiness(parentBusiness);
 		setPtJob(ptJob);
 		setUrban(urban);
 		setBusinessStudent(businessStudent);
-		//setSuccess(success);
 	}
 	
 	public String toString()
 	{
-		String summary = getGender() + ',' + isParentBusiness() + ',' + isPtJob() + ','
-				+ isUrban() + ',' + isBusinessStudent() +  '\n';
+		String summary = getGender() + ',' + isParentBusiness() + ',' 
+		+ isPtJob() + ',' + isUrban() + ',' + isBusinessStudent() +  '\n';
 		
 		return summary;
-		
 	}
 
 	public String getGender() {
@@ -34,7 +36,7 @@ public class Query
 	}
 
 	public void setGender(String gender) {
-		if(gender == "Male" || gender == "Female") {
+		if(gender.equals("male") || gender.equals("female")) {
 			this.gender = gender;
 		}
 	}

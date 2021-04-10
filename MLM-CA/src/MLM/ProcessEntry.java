@@ -9,18 +9,19 @@ public class ProcessEntry
 	/* Index 0 = Male */ /* Index 1 = Female */
 	private static ArrayList<Integer> gender = new ArrayList<Integer>(Arrays.asList(0,0));
 	/* Index 0 = Yes */ /* Index 1 = No */
-	private static ArrayList<Integer> entrepreneur = new ArrayList<Integer>(Arrays.asList(0,0));
-	private static ArrayList<Integer> pgBusiness = new ArrayList<Integer>(Arrays.asList(0,0));
-	private static ArrayList<Integer> ptJob = new ArrayList<Integer>(Arrays.asList(0,0));
+	private static ArrayList<Integer> becameEntrepreneur = new ArrayList<Integer>(Arrays.asList(0,0));
+	private static ArrayList<Integer> parentGuardianBusiness = new ArrayList<Integer>(Arrays.asList(0,0));
+	private static ArrayList<Integer> partTimeJob = new ArrayList<Integer>(Arrays.asList(0,0));
 	private static ArrayList<Integer> businessStudent = new ArrayList<Integer>(Arrays.asList(0,0));
 	/* Index 0 = Urban */ /* Index 1 = Rural */
 	private static ArrayList<Integer> address = new ArrayList<Integer>(Arrays.asList(0,0));
-	private static ArrayList<ArrayList<Integer>> options = new ArrayList<ArrayList<Integer>>(Arrays.asList(gender, pgBusiness, ptJob, address, businessStudent, entrepreneur));
+	/* Array of Features */
+	private static ArrayList<ArrayList<Integer>> options = new ArrayList<ArrayList<Integer>>(Arrays.asList(gender, parentGuardianBusiness, partTimeJob, address, businessStudent, becameEntrepreneur));
 	
-	/* Entrepreneurs */
+	/* Entrepreneur Values per Feature */
 	private static int maleEntre=0, femaleEntre=0, 
 	y_pgBusinessEntre=0, n_pgBusinessEntre=0,	// pgBusiness = Parent Guardian Had a Business (Feature)
-	y_ptJobEntre=0, n_ptJobEntre=0,		// ptJob = Had a part time job (Feature)
+	y_partTimeJobEntre=0, n_partTimeJobEntre=0,		// ptJob = Had a part time job (Feature)
 	y_businessStudent=0, n_businessStudent=0,
 	u_address=0, r_address=0;
 	
@@ -29,105 +30,65 @@ public class ProcessEntry
 		ArrayList<String> entryArray = new ArrayList<String>(Arrays.asList(entry.split(",")));
 		int entryLength = entryArray.size();
 		
-		//System.out.println(entryArray);
-		
-		if(entryArray.get(0).equals("Male"))
+		// Is a Male
+		if(entryArray.get(0).equals("male"))
 		{
 			// Male & Entrepreneur
-			if(entryArray.get(5).equals("Yes"))
-			{
-				maleEntre++;
-			}
-			// Male & Not Entrepreneur
+			if(entryArray.get(5).equals("yes")) maleEntre++;
 		}
-		else if(entryArray.get(0).equals("Female"))
+		// Is a Female
+		else if(entryArray.get(0).equals("female"))
 		{
 			// Female & Entrepreneur
-			if(entryArray.get(5).equals("Yes"))
-			{
-				femaleEntre++;
-			}
-			// Female & Not Entrepreneur
+			if(entryArray.get(5).equals("yes")) femaleEntre++;
 		}
 		
-		/* Parent/Guardian Had Own Business */
-		if(entryArray.get(1).equals("Yes"))
+		// Parent/Guardian Had Own Business
+		if(entryArray.get(1).equals("yes"))
 		{
 			// Parent/Guardian Had Own Business & Entrepreneur
-			if(entryArray.get(5).equals("Yes"))
-			{
-				y_pgBusinessEntre++;
-			}
-			// Parent/Guardian Had Own Business & Not Entrepreneur
+			if(entryArray.get(5).equals("yes")) y_pgBusinessEntre++;
 		}
 		else // Parent/Guardian Didn't Own Business
 		{
 			// Parent/Guardian Didn't Own Business & Entrepreneur
-			if(entryArray.get(5).equals("Yes"))
-			{
-				n_pgBusinessEntre++;
-			}
-			// Parent/Guardian Didn't Own Business & Not Entrepreneur
+			if(entryArray.get(5).equals("yes")) n_pgBusinessEntre++;
 		}
 		
 		/* Had Part Time Job */
-		if(entryArray.get(2).equals("Yes"))
+		if(entryArray.get(2).equals("yes"))
 		{
 			// Had Part Time Job & Entrepreneur
-			if(entryArray.get(5).equals("Yes"))
-			{
-				y_ptJobEntre++;
-			}
-			// Had Part Time Job & Not Entrepreneur
+			if(entryArray.get(5).equals("yes")) y_partTimeJobEntre++;
 		}
 		else // Didn't Part Time Job
 		{
 			// Didn't Part Time Job & Entrepreneur
-			if(entryArray.get(5).equals("Yes"))
-			{
-				n_ptJobEntre++;
-			}
-			// Didn't Part Time Job & Not Entrepreneur
+			if(entryArray.get(5).equals("yes")) n_partTimeJobEntre++;
 		}
 		
 		/* Urban or Rural Address */
-		if(entryArray.get(3).equals("Urban"))
+		if(entryArray.get(3).equals("urban"))
 		{
 			// Urban & Entrepreneur
-			if(entryArray.get(5).equals("Yes"))
-			{
-				u_address++;
-			}
-			// Urban & Not Entrepreneur
+			if(entryArray.get(5).equals("yes")) u_address++;
 		}
 		else // Rural
 		{
 			// Rural & Entrepreneur
-			if(entryArray.get(5).equals("Yes"))
-			{
-				r_address++;
-			}
-			// Rural & Not Entrepreneur
+			if(entryArray.get(5).equals("yes")) r_address++;
 		}
 		
 		/* Studied Business */
-		if(entryArray.get(4).equals("Yes"))
+		if(entryArray.get(4).equals("yes"))
 		{
 			// Studied Business & Entrepreneur
-			if(entryArray.get(5).equals("Yes"))
-			{
-				y_businessStudent++;
-			}
-			// Studied Business & Not Entrepreneur
+			if(entryArray.get(5).equals("yes")) y_businessStudent++;
 		}
 		else // Didn't Study Business
 		{
 			// Didn't Study Business & Entrepreneur
-			if(entryArray.get(5).equals("Yes"))
-			{
-				n_businessStudent++;
-			}
-			// Didn't Study Business & Not Entrepreneur
+			if(entryArray.get(5).equals("yes")) n_businessStudent++;
 		}
 
 		populateArrays(entryArray, entryLength);
@@ -135,8 +96,11 @@ public class ProcessEntry
 	
 	public void incrementValue(ArrayList<Integer> array, int index)
 	{
+		// Gets old value
 		int oldVal = array.get(index);
+		// Creates new value
 		int newVal = oldVal + 1;
+		// Changes to new value
 		array.set(index, newVal);
 	}
 	
@@ -183,15 +147,15 @@ public class ProcessEntry
 		 * */
 		
 		String summary = 
-		"\n\n=====<[Values for Debugging]>=====\n"
-		+ "0-1: Males: " + gender.get(0)
-		+"\n0-2: Females: " + gender.get(1)
+		"=====<[Values for Debugging]>=====\n"
+		+ "0-0: Males: " + gender.get(0)
+		+"\n0-1: Females: " + gender.get(1)
 		
-		+"\n1-0: Parent/Guardian Had Own Business: " + pgBusiness.get(0)
-		+"\n1-1: Parent/Guardian Didn't Own Business: " + pgBusiness.get(1)
+		+"\n1-0: Parent/Guardian Had Own Business: " + parentGuardianBusiness.get(0)
+		+"\n1-1: Parent/Guardian Didn't Own Business: " + parentGuardianBusiness.get(1)
 		
-		+"\n2-0: Had Part Time Job: " + ptJob.get(0)
-		+"\n2-1: Didn't Have Part Time Job: " + ptJob.get(1)
+		+"\n2-0: Had Part Time Job: " + partTimeJob.get(0)
+		+"\n2-1: Didn't Have Part Time Job: " + partTimeJob.get(1)
 		
 		+"\n3-0: Urban: " + address.get(0)
 		+"\n3-1: Rural: " + address.get(1)
@@ -199,8 +163,8 @@ public class ProcessEntry
 		+"\n4-0: Business Students: " + businessStudent.get(0)
 		+"\n4-1: No business: " + businessStudent.get(1)
 		
-		+ "\n5-0: Entrepreneurs: " + entrepreneur.get(0)
-		+ "\n5-1: Non Entrepreneurs: " + entrepreneur.get(1) +
+		+ "\n5-0: Entrepreneurs: " + becameEntrepreneur.get(0)
+		+ "\n5-1: Non Entrepreneurs: " + becameEntrepreneur.get(1) +
 		
 		"\n\n=====<[Values]>=====\n0: Male & Entrepreneur | " + maleEntre + "\n" +
 		" : Male & Not Entrepreneur | " + (gender.get(0)-maleEntre) + "\n\n" +
@@ -209,16 +173,16 @@ public class ProcessEntry
 		" : Female & Not Entrepreneur | " + (gender.get(1)-femaleEntre) + "\n\n" +
 				
 		"2: Parent/Guardian Had Own Business & Entrepreneur | " + y_pgBusinessEntre + "\n" +
-		" : Parent/Guardian Had Own Business & Not Entrepreneur | " + (pgBusiness.get(0)-y_pgBusinessEntre) + "\n\n" +
+		" : Parent/Guardian Had Own Business & Not Entrepreneur | " + (parentGuardianBusiness.get(0)-y_pgBusinessEntre) + "\n\n" +
 			
 		"3: Parent/Guardian Didn't Own Business & Entrepreneur | " + n_pgBusinessEntre + "\n" +
-		" : Parent/Guardian Didn't Own Business & Not Entrepreneur | " + (pgBusiness.get(1)-n_pgBusinessEntre) + "\n\n" +
+		" : Parent/Guardian Didn't Own Business & Not Entrepreneur | " + (parentGuardianBusiness.get(1)-n_pgBusinessEntre) + "\n\n" +
 				
-		"4: Had Part Time Job & Entrepreneur | " + y_ptJobEntre + "\n" +
-		" : Had Part Time Job & Not Entrepreneur | " + (ptJob.get(0)-y_ptJobEntre) + "\n\n" +
+		"4: Had Part Time Job & Entrepreneur | " + y_partTimeJobEntre + "\n" +
+		" : Had Part Time Job & Not Entrepreneur | " + (partTimeJob.get(0)-y_partTimeJobEntre) + "\n\n" +
 				
-		"5: Didn't Have Part Time Job & Entrepreneur | " + n_ptJobEntre + "\n" +
-		" : Didn't Have Part Time Job & Not Entrepreneur | " + (ptJob.get(1)-n_ptJobEntre) + "\n\n" +
+		"5: Didn't Have Part Time Job & Entrepreneur | " + n_partTimeJobEntre + "\n" +
+		" : Didn't Have Part Time Job & Not Entrepreneur | " + (partTimeJob.get(1)-n_partTimeJobEntre) + "\n\n" +
 				
 		"6: Urban & Entrepreneur | " + u_address + "\n" +
 		" : Urban & Not Entrepreneur | " + (address.get(0)-u_address) + "\n\n" +
@@ -237,9 +201,11 @@ public class ProcessEntry
 
 	public static ArrayList<Integer> getValues()
 	{
-		final ArrayList<Integer> values = new ArrayList<Integer>(Arrays.asList(maleEntre, femaleEntre, 
+		// Returns array of values for each feature
+		// The likes of Male & Entrepreneur, and Had a part time job & No an Entrepreneur are within these values
+		ArrayList<Integer> values = new ArrayList<Integer>(Arrays.asList(maleEntre, femaleEntre, 
 																		y_pgBusinessEntre, n_pgBusinessEntre,
-																		y_ptJobEntre, n_ptJobEntre,	
+																		y_partTimeJobEntre, n_partTimeJobEntre,	
 																		y_businessStudent, n_businessStudent,
 																		u_address, r_address));
 		

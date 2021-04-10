@@ -20,17 +20,16 @@ import javax.swing.border.TitledBorder;
 @SuppressWarnings("serial")
 public class GUI extends JFrame implements ActionListener
 {
-	private ButtonGroup gender, business, job, address, student, successful;
+	private ButtonGroup gender, business, job, address, student;
 	private JRadioButton male, female, 
 					ownedBusiness, noBusiness,
 					ptJob, noJob,
 					urban, rural, 
-					businessStudent, notBusinessStudent, 
-					entrepreneur, notEntrepreneur;
+					businessStudent, notBusinessStudent; 
 	private JButton submit;
 	private JPanel studentGender, parentGuardian, partTime, urbanOrRural,
-			studiesBusiness, becameEntrepreneur;
-	private JLabel probability;
+			studiesBusiness;
+	private JLabel futureEntrepreneurLabel, resultLabel;
 
 	public GUI(String title)
 	{
@@ -157,30 +156,7 @@ public class GUI extends JFrame implements ActionListener
 		
 		// Add to panel
 		studiesBusiness.add(businessStudent);
-		studiesBusiness.add(notBusinessStudent);
-	
-		/* ========== Become an Entrepreneur ========== */
-		
-		// Panel
-		//becameEntrepreneur = new JPanel();
-		//becameEntrepreneur.setBorder(BorderFactory.createTitledBorder("Became an Entrepreneur"));
-		//becameEntrepreneur.setLayout(new BoxLayout(becameEntrepreneur, BoxLayout.X_AXIS));
-		
-		// Radio Buttons
-		//entrepreneur = new JRadioButton("Yes", true);
-		//entrepreneur.setActionCommand( entrepreneur.getText() );
-		
-		//notEntrepreneur = new JRadioButton("No", false);
-		//notEntrepreneur.setActionCommand( notEntrepreneur.getText() );
-		
-		// Button Group
-		//successful = new ButtonGroup();
-		//successful.add(entrepreneur);
-		//successful.add(notEntrepreneur);
-		
-		// Add to panel
-		//becameEntrepreneur.add(entrepreneur);
-		//becameEntrepreneur.add(notEntrepreneur);
+		studiesBusiness.add(notBusinessStudent);	
 		
 		/* ========== Submit button ========== */
 		
@@ -189,11 +165,17 @@ public class GUI extends JFrame implements ActionListener
 		submit.setFont(new Font("Arial", Font.BOLD, 24));
 		submit.addActionListener(this);
 		
-		/* ========== Probability Label ========== */
+		/* ========== Future Entrepreneur Label ========== */
 		
 		// Label
-		probability = new JLabel("Probability: 0%", SwingConstants.CENTER);
-		probability.setFont(new Font("Calibri", Font.BOLD, 24));
+		futureEntrepreneurLabel = new JLabel("Future Entrepreneur:", SwingConstants.CENTER);
+		futureEntrepreneurLabel.setFont(new Font("Calibri", Font.BOLD, 28));
+		
+		/* ========== Future Entrepreneur Label ========== */
+		
+		// Label
+		resultLabel = new JLabel("", SwingConstants.CENTER);
+		resultLabel.setFont(new Font("Calibri", Font.BOLD, 28));
 		
 		// Add to frame
 		add(studentGender);
@@ -201,11 +183,18 @@ public class GUI extends JFrame implements ActionListener
 		add(partTime);
 		add(urbanOrRural);
 		add(studiesBusiness);
-		//add(becameEntrepreneur);
 		add(submit);
-		add(probability);
+		add(futureEntrepreneurLabel);
+		add(resultLabel);
 		
 		setVisible(true);
+	}
+	
+	public String toString()
+	{
+		String summary = "Naive Bayes by Sean Hampson C19301641";
+		
+		return summary;
 	}
 
 	@Override
@@ -217,27 +206,29 @@ public class GUI extends JFrame implements ActionListener
 		String jobText = job.getSelection().getActionCommand();
 		String addressText = address.getSelection().getActionCommand();
 		String studentText = student.getSelection().getActionCommand();
-		//String successfulText = successful.getSelection().getActionCommand();
 		
 		/* Boolean parameters initialize */
-		boolean bBool = false,jBool = false, aBool = false, stBool = false;
+		boolean businessBool = false, jobBool = false, addressBool = false, studentBool = false;
 		
 		/* Boolean parameters set to true depending on value*/
-		if(businessText == "Yes") bBool = true;
-		if(jobText == "Yes") jBool = true;
-		if(addressText == "Urban") aBool = true;
-		if(studentText == "Yes") stBool = true;
-		//if(successfulText == "Yes") suBool = true;
+		if(businessText == "Yes") businessBool = true;
+		if(jobText == "Yes") jobBool = true;
+		if(addressText == "Urban") addressBool = true;
+		if(studentText == "Yes") studentBool = true;
 		
-		Query q1 = new Query(genderText, bBool, jBool, aBool, stBool);
+		Query q1 = new Query(genderText, businessBool, jobBool, addressBool, studentBool);
 		System.out.println(q1);
 		
 		ProcessQuery p1 = new ProcessQuery(q1);
-		
-		String pc = String.format("%.4f", p1.getProb());
-		double pcd = Double.parseDouble(pc);
-		pcd = pcd * 100.0;
-		pcd = Math.round(pcd * 100.0) / 100.0;
-		probability.setText("Probability: " + String.valueOf(pcd) + "%");
+		String result = p1.getProb();
+		if(result.equals("yes"))
+		{
+			resultLabel.setText("YES");
+		}
+		else
+		{
+			System.out.println(p1);
+			resultLabel.setText("NO");
+		}
 	}
 }

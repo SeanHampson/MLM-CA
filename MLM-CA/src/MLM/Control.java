@@ -10,7 +10,9 @@ public class Control
 	{
 		// Should only be called once - at the beginning of the program
 		FileProcessor f1 = new FileProcessor(fileName);
+		System.out.println(f1);
 		
 		GUI app = new GUI("Using Naïve Bayes");
+		System.out.println(app);
 	}
 }

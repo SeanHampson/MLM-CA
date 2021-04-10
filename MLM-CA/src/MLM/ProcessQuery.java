@@ -6,51 +6,42 @@ import java.util.Arrays;
 public class ProcessQuery
 {
 	private String gender;
-	private boolean ptB, ptJ, urban, bStud, success;
-	private double prob;
+	private boolean parentGuardianBusiness, partTimeJob, urban, businessStudent;
+	private String prob;
 	
 	public ProcessQuery(Query query)
-	{
-		//ArrayList<Boolean> queryBools = new ArrayList<Boolean>(Arrays.asList(ptB, ptJ, urban, bStud, success));
-		
+	{	
 		prob = bayesFormula(query);
 	}
 	
 	public String toString()
 	{
-		String summary=String.valueOf(getProb());
+		// Should return Yes/NoS
+		String summary = getProb();
 		
 		return summary;
 	}
 	
-	public double getProb()
+	public String getProb()
 	{
 		return prob;
 	}
 	
-	public double bayesFormula(Query query)
+	public String bayesFormula(Query query)
 	{
-		double tLine=1.0, bLine=1.0;
-		//double ctLine=1.0, cbLine=1.0;
-		
-		double numEntries = FileProcessor.getNumEntries();
-		
-		/*private String gender;	
-		private boolean parentBusiness;		
-		private boolean ptJob;				
-		private boolean urban;			
-		private boolean businessStudent;
-		private boolean success; */
-		
-		gender = query.getGender();
-		ptB = query.isParentBusiness();
-		ptJ = query.isPtJob();
-		urban = query.isUrban();
-		bStud = query.isBusinessStudent();
-		//success = query.isSuccess();
-		
 		/* 0 gender, 1 pgBusiness, 2 ptJob, 3 address, 4 businessStudent, 5 entrepreneur */
 		ArrayList<ArrayList<Integer>> population = ProcessEntry.getPopulations();
+		double numEntrepreneurs = population.get(5).get(0);
+		double numNonEntrepreneurs = population.get(5).get(1);
+		double topLine=1.0, bottomLine=1.0;
+		double numEntries = FileProcessor.getNumEntries();
+		
+		/* gender, parentBusiness, partTimeJob, urban, businessStudent */
+		gender = query.getGender();
+		parentGuardianBusiness = query.isParentBusiness();
+		partTimeJob = query.isPtJob();
+		urban = query.isUrban();
+		businessStudent = query.isBusinessStudent();
 		
 		/* values array index
 		 * 0 maleEntre, 
@@ -65,89 +56,76 @@ public class ProcessQuery
 		 * 9 r_address
 		 */
 		ArrayList<Integer> values = ProcessEntry.getValues();
+		int valuesLength = values.size();
 		
-		double numEntrepreneurs = population.get(5).get(0);
+		/* parentGuardianBusiness, partTimeJob, urban, businessStudent */
+		ArrayList<Boolean> features = new ArrayList<Boolean>(Arrays.asList(parentGuardianBusiness, partTimeJob, urban, businessStudent));
+		int featuresLength = features.size(); 
 		
 		if(gender.equals("Male"))
 		{
-			tLine *= ((double) values.get(0)/ numEntrepreneurs);
-			bLine *= ((double) population.get(0).get(0)/ numEntries);
+			topLine *= ((double) values.get(0)/ numEntrepreneurs);
+			bottomLine *= ((double) population.get(0).get(0)/ numEntries);
 		}
-		else // Female
+		// Female
+		else
 		{
-			tLine *= ((double) values.get(1)/ numEntrepreneurs);
-			bLine *= (((double) population.get(0).get(1))/ numEntries);
-		}
-		
-		// Debugging
-		System.out.println("1st:\nTop Line: "  + (double) values.get(1) + " / " + numEntrepreneurs + " = " + tLine);
-		System.out.println("Bottom Line: " + (double) population.get(0).get(1) + " / " + numEntries + " = " + bLine + "\n");
-		
-		if(ptB)
-		{
-			tLine *= ((double) values.get(2)/ numEntrepreneurs);
-			bLine *= ((double) population.get(1).get(0)/ numEntries);
-		}
-		else // Doesn't own business
-		{
-			tLine *= ((double) values.get(3)/ numEntrepreneurs);
-			bLine *= ((double) population.get(1).get(1)/ numEntries);
+			topLine *= ((double) values.get(1)/ numEntrepreneurs);
+			bottomLine *= (((double) population.get(0).get(1))/ numEntries);
 		}
 		
-		// Debugging
-		System.out.println("2nd:\nTop Line: " + tLine);
-		System.out.println("Bottom Line: " + (double) population.get(0).get(1) + " / " + numEntries + " = " + bLine + "\n");
-		
-		if(ptJ)
+		for(int i = 0, j = 2; i < featuresLength && j < valuesLength; i++, j+=2)
 		{
-			tLine *= ((double) values.get(4)/ numEntrepreneurs);
-			bLine *= ((double) population.get(2).get(0)/numEntries);
+			if(features.get(i))
+			{
+				topLine *= ((double) values.get(j)/ numEntrepreneurs);
+				bottomLine *= ((double) population.get(i+1).get(0)/ numEntries);
+			}
+			else
+			{
+				topLine *= ((double) values.get(j+1)/ numEntrepreneurs);
+				bottomLine *= ((double) population.get(i+1).get(1)/ numEntries);
+			}
+		}
+		
+		// Compare to Non entrepreneur
+		double compare = 1.0;
+		
+		if(gender.equals("Male"))
+		{
+			compare *= ((double) (population.get(0).get(0)-values.get(0))/ numNonEntrepreneurs);
+
+		}
+		// Female
+		else
+		{
+			compare *= ((double) (population.get(0).get(1)-values.get(1))/ numNonEntrepreneurs);
+		}
+		
+		for(int i = 0, j = 2; i < featuresLength && j < valuesLength; i++, j+=2)
+		{
+			if(features.get(i))
+			{
+				compare *= ((double) (population.get(i+1).get(0)-values.get(j))/ numNonEntrepreneurs);
+			}
+			else
+			{
+				compare *= ((double) (population.get(i+1).get(1)-values.get(j+1))/ numNonEntrepreneurs);
+			}
+		}
+		
+		topLine *= ((double) population.get(5).get(0)/ numEntries);
+		compare *= ((double) population.get(5).get(1)/ numEntries);
+		
+		System.out.println("1: " + topLine + "\n2: " + compare);
+		
+		if(topLine > compare) 
+		{
+			return "yes";
 		}
 		else
 		{
-			tLine *= ((double) values.get(5)/ numEntrepreneurs);
-			bLine *= ((double) population.get(2).get(1)/ numEntries);
+			return "no";
 		}
-		
-		// Debugging
-		System.out.println("3rd:\nTop Line: " + tLine);
-		System.out.println("Bottom Line: " + (double) population.get(0).get(1) + " / " + numEntries + " = " + bLine + "\n");
-		
-		if(urban)
-		{
-			tLine *= ((double) values.get(6)/ numEntrepreneurs);
-			bLine *= ((double) population.get(3).get(0)/ numEntries);
-		}
-		else
-		{
-			tLine *= ((double) values.get(7)/ numEntrepreneurs);
-			bLine *= ((double) population.get(3).get(1)/ numEntries);
-		}
-		
-		// Debugging
-		System.out.println("4th:\nTop Line: " + tLine);
-		System.out.println("Bottom Line: " + (double) population.get(0).get(1) + " / " + numEntries + " = " + bLine + "\n");
-		
-		if(bStud)
-		{
-			tLine *= ((double) values.get(8)/ numEntrepreneurs);
-			bLine *= ((double) population.get(4).get(0)/ numEntries);
-		}
-		else
-		{
-			tLine *= ((double) values.get(9)/ numEntrepreneurs);
-			bLine *= ((double) population.get(4).get(1)/ numEntries);
-		}
-		
-		// Debugging
-		System.out.println("5th:\nTop Line: " + tLine);
-		System.out.println("Bottom Line: " + (double) population.get(0).get(1) + " / " + numEntries + " = " + bLine + "\n");
-		
-		tLine *= ((double) population.get(5).get(0)/ numEntries);
-		
-		System.out.println("6th:\nTop Line: " + (double) population.get(5).get(0) + " / " +  numEntries + " : "+ tLine);
-		System.out.println("Bottom Line: " + (double) population.get(0).get(1) + " / " + numEntries + " = " + bLine + "\n");
-		
-		return tLine/bLine;
 	}
 }
