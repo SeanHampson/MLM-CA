@@ -27,7 +27,7 @@ public class ProcessQuery
 		return prob;
 	}
 	
-	public String bayesFormula(Query query)
+	private String bayesFormula(Query query)
 	{
 		/* 0 gender, 1 pgBusiness, 2 ptJob, 3 address, 4 businessStudent, 5 entrepreneur */
 		ArrayList<ArrayList<Integer>> population = ProcessEntry.getPopulations();
@@ -90,6 +90,7 @@ public class ProcessQuery
 		
 		topLine *= ((double) population.get(5).get(0)/ numEntries);
 		compare *= ((double) population.get(5).get(1)/ numEntries);
+		//System.out.println("TopLine : " + topLine + " vs. Compare: " + compare);
 		
 		if(topLine > compare) 
 		{

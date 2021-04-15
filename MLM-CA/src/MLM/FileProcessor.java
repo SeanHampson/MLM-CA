@@ -2,6 +2,8 @@ package MLM;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Scanner;
 
 public class FileProcessor
@@ -13,51 +15,110 @@ public class FileProcessor
 	private String entry;
 	private boolean validEntry;
 	private static double trainingSize=1.0;
+	private static int trainAmount, testAmount;
 	
 	public FileProcessor(String fileName, double trainSize) throws FileNotFoundException
 	{
 		setTrainingSize(trainSize);
-		setFile(fileName);
+		file = new File(fileName);
 		open(file);
 	}
 	
 	public FileProcessor(String fileName) throws FileNotFoundException
 	{
-		setFile(fileName);
+		file = new File(fileName);
 		open(file);
 	}
 	
 	private void open(File fileName) throws FileNotFoundException
 	{
 		setNumEntries(0);
+		// Counts current entry index
+		int counter = 0, totalTested=0, correct=0;
+		String gender="", result;
+		boolean parentBusiness=false, ptJob=false, urban=false, businessStudent=false, isEntre=false;
+		ArrayList<String> entryArray;
 		
-		setScanner(file);
-		scanner.useDelimiter("\n");
-		
-		while(scanner.hasNext())
+		for(int i = 0; i < 2; i++)
 		{
-			// Scan and store next line in variable entry
-			entry = scanner.next();
+			counter = 0;
+			scanner = new Scanner(fileName);
+			scanner.useDelimiter("\n");
 			
-			// Remove whitespace
-			entry = entry.replaceAll("\\s", "");
-			entry = entry.toLowerCase();
-			
-			// If the line from data begins with Male or Female it is a valid entry
-			setValidEntry(entry.startsWith("male") || entry.startsWith("female"));
-			
-			// Checks if next line is a valid entry
-			if(getValidEntry())
+			while(scanner.hasNext())
 			{
-				// Increments the number of entries in data by 1
-				setNumEntries(numEntries + 1);
-				// Processes this entry
-				setProcessEntry(entry);
+				// Scan and store next line in variable entry
+				entry = scanner.next();
+				
+				// Remove whitespace
+				entry = entry.replaceAll("\\s", "");
+				entry = entry.toLowerCase();
+				
+				// If the line from data begins with Male or Female it is a valid entry
+				setValidEntry(entry.startsWith("male") || entry.startsWith("female"));
+				
+				// Checks if next line is a valid entry
+				if(getValidEntry())
+				{
+					counter++;
+					if(i == 0)
+					{
+						// Increments the number of entries in data by 1
+						setNumEntries(numEntries + 1);
+						setTrainAmount( (int) Math.round( (double) getNumEntries() * getTrainingSize() ) );
+					}
+					else if( i == 1 && counter <= getTrainAmount() )
+					{
+						// Processes this entry
+						setProcessEntry(entry);
+					}
+					else if( i == 1 && counter > getTrainAmount() )
+					{
+						entryArray = new ArrayList<String>(Arrays.asList(entry.split(",")));
+
+						if(entry.toLowerCase().startsWith("male")) gender = "male";
+						if(entry.toLowerCase().startsWith("female")) gender = "female";
+						if(entryArray.get(1).toLowerCase().equals("yes")) parentBusiness = true;
+						if(entryArray.get(2).toLowerCase().equals("yes")) ptJob = true;
+						if(entryArray.get(3).toLowerCase().equals("yes")) urban = true;
+						if(entryArray.get(4).toLowerCase().equals("yes")) businessStudent = true;
+						if(entryArray.get(5).toLowerCase().equals("yes")) isEntre = true;
+						
+						if(entryArray.get(1).toLowerCase().equals("no")) parentBusiness = false;
+						if(entryArray.get(2).toLowerCase().equals("no")) ptJob = false;
+						if(entryArray.get(3).toLowerCase().equals("no")) urban = false;
+						if(entryArray.get(4).toLowerCase().equals("no")) businessStudent = false;
+						if(entryArray.get(5).toLowerCase().equals("no")) isEntre = false;
+						
+						Query q1 = new Query(gender,parentBusiness,ptJob,urban,businessStudent);
+						
+						// Pass query to process query
+						ProcessQuery p1 = new ProcessQuery(q1);
+						
+						// Retrieve result and compare to entry data
+						result = p1.getProb();
+						
+						
+						totalTested++;
+						
+						// Store data
+						if(entryArray.get(5).equals(result))
+						{
+							correct++;
+							System.out.println("(" + q1.getGender() + ") Entry: " + entryArray.get(5) + " vs. " + result + " | Result [" +counter+ "] **** [" + correct + "]");
+						}
+						else
+						{
+							//System.out.println("(" + q1.getGender() + ") Entry: " + entryArray.get(5) + " vs. " + result + " | Result [" +counter+ "]");
+						}
+					}
+				}
 			}
+			setTestAmount( getNumEntries() - getTrainAmount() );
 		}
 		
-		getProcessEntry();
-		scanner.close();
+		System.out.println("Train Amount: " + getTrainAmount() + "\nTest Amount: " + getTestAmount() );
+		System.out.println("\nTested: " + totalTested + "\nTotal Correct: " + correct + "\nAccuracy: " + (double) (correct * 100) / totalTested);
 	}
 	
 	public String toString()
@@ -68,6 +129,22 @@ public class FileProcessor
 		return summary;
 	}
 	
+	public static int getTestAmount() {
+		return testAmount;
+	}
+
+	public static void setTestAmount(int testAmount) {
+		FileProcessor.testAmount = testAmount;
+	}
+
+	public static int getTrainAmount() {
+		return trainAmount;
+	}
+
+	public static void setTrainAmount(int trainAmount) {
+		FileProcessor.trainAmount = trainAmount;
+	}
+
 	private void setTrainingSize(double trainSize) 
 	{
 		if(trainSize <= 1 && trainSize >= 0.1)
@@ -79,11 +156,6 @@ public class FileProcessor
 	private double getTrainingSize()
 	{
 		return trainingSize;
-	}
-	
-	private void setFile(String fileName)
-	{
-		file = new File(fileName);
 	}
 	
 	private void setValidEntry(boolean bool)
@@ -106,18 +178,11 @@ public class FileProcessor
 		return numEntries;
 	}
 	
-	private void setScanner(File file) throws FileNotFoundException
-	{
-		scanner = new Scanner(file);
-	}
-	
-	private void setProcessEntry(String entry)
-	{
+	private void setProcessEntry(String entry) {
 		e1 = new ProcessEntry(entry);
 	}
 	
-	public void getProcessEntry()
-	{
+	public void getProcessEntry() {
 		System.out.println(e1);
 	}
 }
