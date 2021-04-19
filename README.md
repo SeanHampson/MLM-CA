@@ -22,7 +22,7 @@ FileProcessor | <ul><li>Opens given file, iterates through contents to find a va
 ProcessEntry | <ul><li>Given entry from FileProcessor in string format.</li><li>Entry is converted into an ArrayList.</li><li>This ArrayList is iterated through and all the ArrayList and variables that store all the desired data get populated.</li></ul> | entry | Provides the populated ArrayLists to the ProcessQuery class when needed.
 Query | <ul><li>Query object that user can create using the GUI.</li><li>Gets passed to ProcessQuery which will determine whether they will become a future entrepreneur or not based on the dataset.</li></ul> | <ul><li>gender</li><li>parentBusiness</li><li>ptJob</li><li>urban</li><li>businessStudent</li></ul> | Displays the values of each instance when printed.
 ProcessQuery | ... | ... | ...
-GUI | ... | ... | ...
+GUI | Provide a friendly UI for user to create Query objects and pass them onto ProcessQuery class in order to find a result whether they'll become a future entrepreneur or not based on the given dataset. | **User Input** | None
 
 
 ![alt text](https://github.com/SeanHampson/MLM-CA/blob/main/images/default-gui.png "Default GUI")
