@@ -12,5 +12,5 @@ ProcessQuery | ...
 GUI | ...
 
 
-![alt text](https://github.com/SeanHampson/MLM-CA/tree/main/images/default-gui.png "Default GUI")
-![alt text](https://github.com/SeanHampson/MLM-CA/tree/main/images/selection-gui.png "Selection GUI")
+![alt text](https://github.com/SeanHampson/MLM-CA/blob/main/images/default-gui.png "Default GUI")
+![alt text](https://github.com/SeanHampson/MLM-CA/blob/main/images/selection-gui.png "Selection GUI")
