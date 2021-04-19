@@ -24,8 +24,8 @@ Query | <ul><li>Query object that user can create using the GUI.</li><li>Gets pa
 ProcessQuery | <ul><li>The bayes formula is used inside this class.</li><li>The class grabs the pre-populated ArrayLists from the ProcessEntry class and uses these in order to generate a result.</li></ul> | query | *'yes'* or *'no'* **whether they'll become future entrepreneur or not**
 GUI | Provide a friendly UI for user to create Query objects and pass them onto ProcessQuery class in order to find a result whether they'll become a future entrepreneur or not based on the given dataset. | **User Input** | None
 
-When program starts up this is how the GUI will look initially.
+### When program starts up this is how the GUI will look initially.
 ![alt text](https://github.com/SeanHampson/MLM-CA/blob/main/images/default-gui.png "Default GUI")
 
-After the user selects and input such as the following it will look like this.
+### After the user selects and input such as the following it will look like this.
 ![alt text](https://github.com/SeanHampson/MLM-CA/blob/main/images/selection-gui.png "Selection GUI")
