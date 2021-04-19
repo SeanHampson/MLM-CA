@@ -11,12 +11,13 @@ public class ProcessQuery
 	
 	public ProcessQuery(Query query)
 	{	
+		// Does calculation and assigns result to 'prob'
 		prob = bayesFormula(query);
 	}
 	
 	public String toString()
 	{
-		// Should return Yes/NoS
+		// Returns Yes/No whether they will become future entrepreneur
 		String summary = getProb();
 		
 		return summary;
@@ -24,6 +25,7 @@ public class ProcessQuery
 	
 	public String getProb()
 	{
+		// Holds the result of the formula
 		return prob;
 	}
 	
@@ -74,8 +76,10 @@ public class ProcessQuery
 			compare *= ((double) (population.get(0).get(1)-values.get(1))/ numNonEntrepreneurs);
 		}
 		
+		// Iterates through each item in the trained data arrays
 		for(int i = 0, j = 2; i < featuresLength && j < valuesLength; i++, j+=2)
 		{
+			// Algorithm for calculating Naive Bayes numerator by iterating through trained data
 			if(features.get(i))
 			{
 				topLine *= ((double) values.get(j)/ numEntrepreneurs);

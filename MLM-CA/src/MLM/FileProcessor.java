@@ -36,12 +36,15 @@ public class FileProcessor
 		// Counts current entry index
 		int counter = 0, totalTested=0, correct=0;
 		String gender="", result;
-		boolean parentBusiness=false, ptJob=false, urban=false, businessStudent=false, isEntre=false;
+		// Query Parameters
+		boolean parentBusiness=false, ptJob=false, urban=false, businessStudent=false;
 		ArrayList<String> entryArray;
 		
 		for(int i = 0; i < 2; i++)
 		{
+			// Reset counter
 			counter = 0;
+			
 			scanner = new Scanner(fileName);
 			scanner.useDelimiter("\n");
 			
@@ -65,6 +68,7 @@ public class FileProcessor
 					{
 						// Increments the number of entries in data by 1
 						setNumEntries(numEntries + 1);
+						// Sets training size based on number of entries
 						setTrainAmount( (int) Math.round( (double) getNumEntries() * getTrainingSize() ) );
 					}
 					else if( i == 1 && counter <= getTrainAmount() )
@@ -74,22 +78,23 @@ public class FileProcessor
 					}
 					else if( i == 1 && counter > getTrainAmount() )
 					{
+						// Splits entry into an array
 						entryArray = new ArrayList<String>(Arrays.asList(entry.split(",")));
 
+						// Convert Stripped Entry -> Query Instance & Pass to ProcessQuery
 						if(entry.toLowerCase().startsWith("male")) gender = "male";
 						if(entry.toLowerCase().startsWith("female")) gender = "female";
 						if(entryArray.get(1).toLowerCase().equals("yes")) parentBusiness = true;
 						if(entryArray.get(2).toLowerCase().equals("yes")) ptJob = true;
 						if(entryArray.get(3).toLowerCase().equals("yes")) urban = true;
 						if(entryArray.get(4).toLowerCase().equals("yes")) businessStudent = true;
-						if(entryArray.get(5).toLowerCase().equals("yes")) isEntre = true;
 						
 						if(entryArray.get(1).toLowerCase().equals("no")) parentBusiness = false;
 						if(entryArray.get(2).toLowerCase().equals("no")) ptJob = false;
 						if(entryArray.get(3).toLowerCase().equals("no")) urban = false;
 						if(entryArray.get(4).toLowerCase().equals("no")) businessStudent = false;
-						if(entryArray.get(5).toLowerCase().equals("no")) isEntre = false;
 						
+						// Query object with Entry Data
 						Query q1 = new Query(gender,parentBusiness,ptJob,urban,businessStudent);
 						
 						// Pass query to process query
@@ -98,18 +103,20 @@ public class FileProcessor
 						// Retrieve result and compare to entry data
 						result = p1.getProb();
 						
-						
+						// Total number tested is now incremented by 1
 						totalTested++;
 						
 						// Store data
 						if(entryArray.get(5).equals(result))
 						{
 							correct++;
-							System.out.println("(" + q1.getGender() + ") Entry: " + entryArray.get(5) + " vs. " + result + " | Result [" +counter+ "] **** [" + correct + "]");
+							// Debugging
+							//System.out.println("(" + q1 + ") Entry: " + entryArray.get(5) + " vs. " + result + " | Result [" +counter+ "] **** [" + correct + "]");
 						}
 						else
 						{
-							//System.out.println("(" + q1.getGender() + ") Entry: " + entryArray.get(5) + " vs. " + result + " | Result [" +counter+ "]");
+							// Debugging
+							//System.out.println("(" + q1 + ") Entry: " + entryArray.get(5) + " vs. " + result + " | Result [" +counter+ "]");
 						}
 					}
 				}

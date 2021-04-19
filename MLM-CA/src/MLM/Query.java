@@ -26,7 +26,7 @@ public class Query
 	public String toString()
 	{
 		String summary = getGender() + ',' + isParentBusiness() + ',' 
-		+ isPtJob() + ',' + isUrban() + ',' + isBusinessStudent() +  '\n';
+		+ isPtJob() + ',' + isUrban() + ',' + isBusinessStudent();
 		
 		return summary;
 	}
