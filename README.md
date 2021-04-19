@@ -2,14 +2,17 @@
 2nd Year Java Project for Object Oriented Programming Module
 
 # Brief Explantion of How it Works
-When the program is first run the FileProcessor class gets called.
-Inside this class, the ProcessEntry class gets called.
-After the dataset has been trained, the Query class is used on the remaining entries.
-Each time a Query is created it gets passed to the ProcessQuery class to check accuracy.
 
-Once the dataset has been trained and tested the GUI will show.
-On pressing the submit button a Query object will be created using the provided data.
-This Query will be passed to the ProcessQuery class where it'll provide an outcome.
+## Testing & Training Data
+1. When the program is first run the FileProcessor class gets called.
+2. Inside this class, the ProcessEntry class gets called.
+3. After the dataset has been trained, the Query class is used on the remaining entries.
+4. Each time a Query is created it gets passed to the ProcessQuery class to check accuracy.
+
+## GUI & Query Creation
+5. Once the dataset has been trained and tested the GUI will show.
+6. On pressing the submit button a Query object will be created using the provided data.
+7. This Query will be passed to the ProcessQuery class where it'll provide an outcome.
 
 # List of Classes
 Class Name |  Function
