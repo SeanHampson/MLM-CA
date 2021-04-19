@@ -18,8 +18,7 @@
 Class Name |  Function
 --- | --- 
 Control | Main function which calls to classes in desired order.
-FileProcessor | 1. Opens given file, iterates through contents to find a valid entry. 
-2. Each entry found will be forwarded onto the ProcessEntry class. After a given % of entries has been trained, the rest will instead be converted to a Query object before being sent to the ProcessQuery class. The result from the ProcessQuery instance will be compared to the 6th feature in the entry from the dataset in order to generate an accuracy for the model. 
+FileProcessor | <ul style="list-style-type:none"><li>Opens given file, iterates through contents to find a valid entry.</li><li>Each entry found will be forwarded onto the ProcessEntry class.</li><li>After a given % of entries has been trained, the rest will instead be converted to a Query object before being sent to the ProcessQuery class.</li><li>The result from the ProcessQuery instance will be compared to the 6th feature in the entry from the dataset in order to generate an accuracy for the model.</li></ul>
 ProcessEntry | ...
 Query | ...
 ProcessQuery | ...
