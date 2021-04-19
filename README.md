@@ -27,5 +27,5 @@ GUI | Provide a friendly UI for user to create Query objects and pass them onto 
 ### When program starts up this is how the GUI will look initially.
 ![alt text](https://github.com/SeanHampson/MLM-CA/blob/main/images/default-gui.png "Default GUI")
 
-### After the user selects and input such as the following it will look like this.
+### After the user selects an input such as the following and clicks 'SUBMIT' it will look like this.
 ![alt text](https://github.com/SeanHampson/MLM-CA/blob/main/images/selection-gui.png "Selection GUI")
