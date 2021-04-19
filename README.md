@@ -29,3 +29,10 @@ GUI | Provide a friendly UI for user to create Query objects and pass them onto 
 
 ### After the user selects an input such as the following and clicks 'SUBMIT' it will look like this.
 ![alt text](https://github.com/SeanHampson/MLM-CA/blob/main/images/selection-gui.png "Selection GUI")
+
+## IF I Had More Time I Would've
+1. Re-written the whole program using an updated structure.
+2. Added an Entry object and inherited the Query object from it.
+3. Added an option on the GUI to add a new entry to the dataset.
+4. Added an option to specify train/test sizes.
+5. Added an option in GUI to view accuracy of model.
